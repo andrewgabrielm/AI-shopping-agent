@@ -1,0 +1,11 @@
+langchain
+langchain-core
+langchain_community
+langchain-groq
+langchain-openai
+langchain-google-genai
+python-dotenv
+ipykernel
+notebook
+streamlit
+dotenv
