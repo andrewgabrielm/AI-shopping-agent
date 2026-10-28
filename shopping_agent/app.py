@@ -3,8 +3,12 @@ import tempfile
 
 import streamlit as st
 
+import uuid
+
 from shopping_agent import agent
 
+if "thread_id" not in st.session_state:
+    st.session_state.thread_id = str(uuid.uuid4())
 # ---------------------------------------------------------------------------
 # Page config
 # ---------------------------------------------------------------------------
@@ -81,7 +85,14 @@ if prompt := st.chat_input("e.g. I want organic honey under $15 with 4+ rating")
 
     with st.chat_message("assistant"):
         with st.spinner("Thinking…"):
-            result = agent.invoke({"messages": st.session_state.messages})
+            result = agent.invoke(
+                {"messages": st.session_state.messages},
+                config={
+                    "configurable": {
+                        "thread_id": st.session_state.thread_id
+                    }
+                }
+            )
             response = result["messages"][-1].content.replace("`", "")
         st.markdown(response.replace("$", r"\$"))
 
